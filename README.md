@@ -2,10 +2,14 @@
 As simple as it gets
 
 ## Usage Example
-    import { RequestService } from "./request-service"
+    import { RequestService } from "request-with-buffer"
     
     const requestService = new RequestService()
     const bufferIntervalInMilliSeconds: number = 60 * 60 * 1000 // hourly
+
+    const options: any = {
+        url: "https://EnterURLHere",
+    }
 
     const result: any = 
         await requestService.get(options, bufferIntervalInMilliSeconds)
