@@ -3,23 +3,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request-promise");
 class RequestWithBuffer {
     constructor() {
-        this.results = [];
+        this.bufferedResults = [];
+    }
+    static isWithinInterval(milliseconds, referenceDate) {
+        return (new Date(Number(referenceDate.getTime()) + milliseconds).getTime() <= new Date().getTime()) ?
+            true :
+            false;
     }
     async get(options, bufferIntervalInMilliseconds) {
-        if (!this.results.some((entry) => entry.options === options) ||
-            this.lastRequestTimestamp === undefined ||
-            new Date() > new Date(Number(this.lastRequestTimestamp.getTime()) + bufferIntervalInMilliseconds)) {
-            // console.log(`return new data for ${options}`)
+        const bufferedResult = this.bufferedResults.filter((result) => result.options === options)[0];
+        if (bufferedResult === undefined ||
+            !RequestWithBuffer.isWithinInterval(bufferIntervalInMilliseconds, bufferedResult.lastRequestDate)) {
             const result = {
                 data: await request.get(options),
+                lastRequestDate: new Date(),
                 options,
             };
-            this.results.push(result);
+            this.bufferedResults.push(result);
+            return result;
         }
         else {
-            // console.log("no need to call API")
+            return bufferedResult;
         }
-        return this.results.filter((result) => result.options === options)[0];
     }
 }
 exports.RequestWithBuffer = RequestWithBuffer;
