@@ -1,6 +1,6 @@
 {
   "name": "request-with-buffer",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/index.js",
