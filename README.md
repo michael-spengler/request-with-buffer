@@ -7,7 +7,8 @@ As simple as it gets
     const requestWithBuffer = new RequestWithBuffer()
     const bufferIntervalInMilliSeconds: number = 20000
 
-    const result: any = await requestWithBuffer.get(options, bufferIntervalInMilliSeconds)
+    const result: any = 
+        await requestWithBuffer.get(options, bufferIntervalInMilliSeconds)
 
     console.log(result)
     
