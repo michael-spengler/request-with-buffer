@@ -4,25 +4,33 @@ const request: any =
 
 export class RequestWithBuffer {
 
-    private readonly results: IResult[] = []
-    private readonly lastRequestTimestamp: any
+    private readonly bufferedResults: IResult[] = []
+
+    public static isWithinInterval(milliseconds: number, referenceDate: Date): boolean {
+
+        return (new Date(Number(referenceDate.getTime()) + milliseconds).getTime() <= new Date().getTime()) ?
+            true :
+            false
+    }
 
     public async get(options: any, bufferIntervalInMilliseconds: number): Promise<any> {
 
-        if (!this.results.some((entry: IResult) => entry.options === options) ||
-            this.lastRequestTimestamp === undefined ||
-            new Date() > new Date(Number(this.lastRequestTimestamp.getTime()) + bufferIntervalInMilliseconds)) {
-            // console.log(`return new data for ${options}`)
+        const bufferedResult: IResult =
+            this.bufferedResults.filter((result: IResult) => result.options === options)[0]
+
+        if (bufferedResult === undefined ||
+            !RequestWithBuffer.isWithinInterval(bufferIntervalInMilliseconds, bufferedResult.lastRequestDate)) {
             const result: IResult = {
                 data: await request.get(options),
+                lastRequestDate: new Date(),
                 options,
             }
-            this.results.push(result)
+            this.bufferedResults.push(result)
+
+            return result
         } else {
-            // console.log("no need to call API")
+
+            return bufferedResult
         }
-
-        return this.results.filter((result: IResult) => result.options === options)[0]
-
     }
 }
