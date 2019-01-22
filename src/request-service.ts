@@ -2,13 +2,13 @@ import { IResult } from "./types"
 const request: any =
     require("request-promise")
 
-export class RequestWithBuffer {
+export class RequestService {
 
     private readonly bufferedResults: IResult[] = []
 
     public static isWithinInterval(milliseconds: number, referenceDate: Date): boolean {
 
-        return (new Date(Number(referenceDate.getTime()) + milliseconds).getTime() <= new Date().getTime()) ?
+        return (new Date(Number(referenceDate.getTime()) + milliseconds).getTime() > new Date().getTime()) ?
             true :
             false
     }
@@ -19,7 +19,7 @@ export class RequestWithBuffer {
             this.bufferedResults.filter((result: IResult) => result.options === options)[0]
 
         if (bufferedResult === undefined ||
-            !RequestWithBuffer.isWithinInterval(bufferIntervalInMilliseconds, bufferedResult.lastRequestDate)) {
+            !RequestService.isWithinInterval(bufferIntervalInMilliseconds, bufferedResult.lastRequestDate)) {
             const result: IResult = {
                 data: await request.get(options),
                 lastRequestDate: new Date(),

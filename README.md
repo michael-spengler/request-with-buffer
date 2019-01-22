@@ -2,13 +2,13 @@
 As simple as it gets
 
 ## Usage Example
-    import { RequestWithBuffer } from "./request-with-buffer"
+    import { RequestService } from "./request-service"
     
-    const requestWithBuffer = new RequestWithBuffer()
+    const requestService = new RequestService()
     const bufferIntervalInMilliSeconds: number = 60 * 60 * 1000 // hourly
 
     const result: any = 
-        await requestWithBuffer.get(options, bufferIntervalInMilliSeconds)
+        await requestService.get(options, bufferIntervalInMilliSeconds)
 
     console.log(result)
     

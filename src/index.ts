@@ -1,2 +1,2 @@
-export * from "./request-with-buffer"
+export * from "./request-service"
 export * from "./types"

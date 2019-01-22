@@ -1,4 +1,5 @@
 module.exports = {
+    "setupTestFrameworkScriptFile": './jest.setup.js',
     "roots": [
         "<rootDir>/src"
     ],
