@@ -5,7 +5,7 @@ As simple as it gets
     import { RequestWithBuffer } from "./request-with-buffer"
     
     const requestWithBuffer = new RequestWithBuffer()
-    const bufferIntervalInMilliSeconds: number = 20000
+    const bufferIntervalInMilliSeconds: number = 60 * 60 * 1000 // hourly
 
     const result: any = 
         await requestWithBuffer.get(options, bufferIntervalInMilliSeconds)
