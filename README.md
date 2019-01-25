@@ -29,7 +29,7 @@ As simple as it gets
     // you might want to clear the buffer from time to time
     requestService.deleteBuffer()
 
-    // you might want to clear specific buffer entries from time to time
+    // you might want to clear a specific buffer entry from time to time
     requestService.deleteBufferEntry(options)
 
 

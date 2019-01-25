@@ -1,6 +1,6 @@
 {
   "name": "request-with-buffer",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/index.js",
@@ -16,12 +16,9 @@
   },
   "keywords": [
     "Request with Buffer",
+    "Get Request with Buffer",
     "Buffered Request",
-    "Request",
-    "With",
-    "Buffer;",
-    "Buffered",
-    "Requests"
+    "Buffered Get Request"
   ],
   "author": "Michael Spengler",
   "license": "MIT",
