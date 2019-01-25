@@ -8,12 +8,12 @@ const bufferIntervalInMilliSeconds: number = 60 * 60 * 1000 // hourly
 const configurationReader: ConfigurationReader =
     new ConfigurationReader(path.join(__dirname, "../.env"))
 const apiKey: string = configurationReader.get("APIKey")
-const testURL: string = `http://rest.coinapi.io/v1/exchangerate/EUR?apikey=${apiKey}`
+const testURL: string = `https://rest.coinapi.io/v1/exchangerate/EUR?apikey=${apiKey}`
 
 describe("RequestService", () => {
     beforeEach(async () => {
         requestService =
-            new RequestService()
+            RequestService.getInstance()
     })
 
     it("regular get request", async () => {
@@ -44,5 +44,11 @@ describe("RequestService", () => {
         const aVeryShortMomentInTime: number = 0.000000000001
         expect(RequestService.isWithinInterval(aVeryShortMomentInTime, new Date()))
             .toBe(false)
+    })
+
+    it("clears buffer", async () => {
+        requestService.clearBuffer()
+        expect(requestService.getCompleteBufferContent())
+            .toEqual([])
     })
 })

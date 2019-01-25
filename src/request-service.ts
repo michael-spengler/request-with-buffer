@@ -4,7 +4,22 @@ const request: any =
 
 export class RequestService {
 
-    private readonly bufferedResults: IResult[] = []
+    private static instance: RequestService
+
+    public static getInstance(): RequestService {
+        if (RequestService.instance === undefined) {
+            RequestService.instance = new RequestService()
+        }
+
+        return RequestService.instance
+    }
+
+    private bufferedResults: IResult[]
+
+    // private constructor to ensure singleton concept
+    private constructor() {
+        this.bufferedResults = []
+    }
 
     public static isWithinInterval(milliseconds: number, referenceDate: Date): boolean {
 
@@ -33,4 +48,13 @@ export class RequestService {
             return bufferedResult
         }
     }
+
+    public clearBuffer(): void {
+        this.bufferedResults = []
+    }
+
+    public getCompleteBufferContent(): IResult[] {
+        return this.bufferedResults
+    }
+
 }

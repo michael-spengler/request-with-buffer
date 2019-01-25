@@ -1,6 +1,6 @@
 {
   "name": "request-with-buffer",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "",
   "main": "./dist/index.js",
   "typings": "./dist/index.js",
@@ -15,6 +15,8 @@
     "url": "https://github.com/michael-spengler/request-with-buffer"
   },
   "keywords": [
+    "Request with Buffer",
+    "Buffered Request",
     "Request",
     "With",
     "Buffer;",
@@ -25,7 +27,7 @@
   "license": "MIT",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run tslint && npm run test"
+      "pre-commit": "npm run tslint && npm run test:cov"
     }
   },
   "dependencies": {
