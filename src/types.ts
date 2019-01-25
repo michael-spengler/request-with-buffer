@@ -1,4 +1,4 @@
-export interface IResult {
+export interface IBufferEntry {
     options: any
     lastRequestDate: Date
     data: any

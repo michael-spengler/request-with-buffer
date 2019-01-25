@@ -2,6 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const request = require("request-promise");
 class RequestService {
+    static getInstance() {
+        if (RequestService.instance === undefined) {
+            RequestService.instance = new RequestService();
+        }
+        return RequestService.instance;
+    }
+    // private constructor to ensure singleton concept
     constructor() {
         this.bufferedResults = [];
     }
@@ -25,6 +32,22 @@ class RequestService {
         else {
             return bufferedResult;
         }
+    }
+    deleteBuffer() {
+        this.bufferedResults = [];
+    }
+    deleteBufferEntry(options) {
+        const bufferEntry = this.bufferedResults.filter((result) => result.options === options)[0];
+        const indexOfEntryWhichShallBeDeleted = this.bufferedResults.indexOf(bufferEntry);
+        if (indexOfEntryWhichShallBeDeleted === -1) {
+            throw new Error("You tried to delete a buffer entry which was not in the buffer.");
+        }
+        else {
+            this.bufferedResults.splice(indexOfEntryWhichShallBeDeleted, 1);
+        }
+    }
+    getCompleteBufferContent() {
+        return this.bufferedResults;
     }
 }
 exports.RequestService = RequestService;

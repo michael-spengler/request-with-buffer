@@ -46,9 +46,34 @@ describe("RequestService", () => {
             .toBe(false)
     })
 
-    it("clears buffer", async () => {
-        requestService.clearBuffer()
+    it("deletes buffer", async () => {
+        requestService.deleteBuffer()
         expect(requestService.getCompleteBufferContent())
             .toEqual([])
     })
+
+    it("deletes specific buffer entry", async () => {
+        try {
+            requestService.deleteBufferEntry({ url: "notInBuffer" })
+            fail("hmm - please let me think about it")
+        } catch (error) {
+            // works as designed
+        }
+
+        const optionsISS: any = { url: "http://api.open-notify.org/iss-now.json" }
+        const optionsAstronauts: any = { url: "http://api.open-notify.org/astros.json" }
+
+        await requestService.get(optionsISS, bufferIntervalInMilliSeconds)
+        await requestService.get(optionsAstronauts, bufferIntervalInMilliSeconds)
+
+        try {
+            requestService.deleteBufferEntry(optionsISS)
+        } catch (error) {
+            fail(error.message)
+        }
+
+        expect(requestService.getCompleteBufferContent().length)
+            .toEqual(1)
+    })
+
 })

@@ -7,11 +7,11 @@ let requestService;
 const bufferIntervalInMilliSeconds = 60 * 60 * 1000; // hourly
 const configurationReader = new configuration_reader_1.ConfigurationReader(path.join(__dirname, "../.env"));
 const apiKey = configurationReader.get("APIKey");
-const testURL = `http://rest.coinapi.io/v1/exchangerate/EUR?apikey=${apiKey}`;
+const testURL = `https://rest.coinapi.io/v1/exchangerate/EUR?apikey=${apiKey}`;
 describe("RequestService", () => {
     beforeEach(async () => {
         requestService =
-            new request_service_1.RequestService();
+            request_service_1.RequestService.getInstance();
     });
     it("regular get request", async () => {
         const options = {
@@ -35,5 +35,31 @@ describe("RequestService", () => {
         const aVeryShortMomentInTime = 0.000000000001;
         expect(request_service_1.RequestService.isWithinInterval(aVeryShortMomentInTime, new Date()))
             .toBe(false);
+    });
+    it("deletes buffer", async () => {
+        requestService.deleteBuffer();
+        expect(requestService.getCompleteBufferContent())
+            .toEqual([]);
+    });
+    it("deletes specific buffer entry", async () => {
+        try {
+            requestService.deleteBufferEntry({ url: "notInBuffer" });
+            fail("hmm - please let me think about it");
+        }
+        catch (error) {
+            // works as designed
+        }
+        const optionsISS = { url: "http://api.open-notify.org/iss-now.json" };
+        const optionsAstronauts = { url: "http://api.open-notify.org/astros.json" };
+        await requestService.get(optionsISS, bufferIntervalInMilliSeconds);
+        await requestService.get(optionsAstronauts, bufferIntervalInMilliSeconds);
+        try {
+            requestService.deleteBufferEntry(optionsISS);
+        }
+        catch (error) {
+            fail(error.message);
+        }
+        expect(requestService.getCompleteBufferContent().length)
+            .toEqual(1);
     });
 });
